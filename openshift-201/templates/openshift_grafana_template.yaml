@@ -71,7 +71,7 @@ objects:
           deploymentconfig: ${GRAFANA_SERVICE_NAME}
       spec:
         containers:
-        - image: grafana/grafana:v6.2.0
+        - image: grafana/grafana:6.2.0
           imagePullPolicy: IfNotPresent
           name: ${GRAFANA_SERVICE_NAME}
           ports:
@@ -122,7 +122,6 @@ objects:
   metadata:
     annotations:
       openshift.io/generated-by: OpenShiftNewApp
-      openshift.io/image.dockerRepositoryCheck: 2019-05-26T17:34:32Z
     generation: 2
     labels:
       app: ${GRAFANA_SERVICE_NAME}
