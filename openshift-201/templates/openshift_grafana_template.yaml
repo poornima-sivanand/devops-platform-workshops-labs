@@ -71,6 +71,26 @@ objects:
           deploymentconfig: ${GRAFANA_SERVICE_NAME}
       spec:
         containers:
+        - env:
+          - name: GF_DATABASE_TYPE
+            value: postgres
+          - name: GF_DATABASE_HOST
+            value: patroni-master
+          - name: GF_DATABASE_NAME
+            valueFrom:
+              secretKeyRef:
+                key: app-db-name
+                name: patroni
+          - name: GF_DATABASE_USER
+            valueFrom:
+              secretKeyRef:
+                key: app-db-username
+                name: patroni
+          - name: GF_DATABASE_PASSWORD
+            valueFrom:
+              secretKeyRef:
+                key: app-db-password
+                name: patroni
         - image: grafana/grafana:6.2.0
           imagePullPolicy: IfNotPresent
           name: ${GRAFANA_SERVICE_NAME}
@@ -90,7 +110,14 @@ objects:
         dnsPolicy: ClusterFirst
         restartPolicy: Always
         schedulerName: default-scheduler
-        securityContext: {}
+        securityContext:
+          capabilities:
+            drop:
+            - KILL
+            - MKNOD
+            - SETGID
+            - SETUID
+          runAsUser: 1007460000
         terminationGracePeriodSeconds: 30
         volumes:
         - configMap:
