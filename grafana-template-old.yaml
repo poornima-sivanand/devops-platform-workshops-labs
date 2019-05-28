@@ -1,0 +1,101 @@
+---
+apiVersion: template.openshift.io/v1
+kind: Template
+metadata:
+  name: poornima-sivanand-graphana
+objects:
+- apiVersion: apps.openshift.io/v1
+  kind: DeploymentConfig
+  metadata:
+    labels:
+      app: poornima-sivanand-grafana
+    name: poornima-sivanand-grafana
+  spec:
+    replicas: 1
+    revisionHistoryLimit: 10
+    selector:
+      app: poornima-sivanand-grafana
+      deploymentconfig: poornima-sivanand-grafana
+    strategy:
+      activeDeadlineSeconds: 21600
+      rollingParams:
+        intervalSeconds: 1
+        maxSurge: 25%
+        maxUnavailable: 25%
+        timeoutSeconds: 600
+        updatePeriodSeconds: 1
+      type: Rolling
+    template:
+      metadata:
+        labels:
+          app: poornima-sivanand-grafana
+          deploymentconfig: poornima-sivanand-grafana
+      spec:
+        containers:
+        - image: grafana/grafana@sha256:ced97851c89ca7d1e67a43aabbe05452e144a9bc9ffc63d2220dc2f37fdc1a71
+          imagePullPolicy: IfNotPresent
+          ports:
+          - containerPort: 3000
+            protocol: TCP
+          terminationMessagePath: /dev/termination-log
+          terminationMessagePolicy: File
+          volumeMounts:
+          - mountPath: /var/lib/grafana/dashboards/
+            name: volume-yeiog
+          - mountPath: /etc/grafana/provisioning/datasources/
+            name: volume-azq0r
+          - mountPath: /etc/grafana/provisioning/dashboards
+            name: volume-33g9p
+        dnsPolicy: ClusterFirst
+        restartPolicy: Always
+        schedulerName: default-scheduler
+        terminationGracePeriodSeconds: 30
+        volumes:
+        - configMap:
+            defaultMode: 420
+            name: poornima-sivanand-graphana-dashboard
+          name: volume-yeiog
+        - configMap:
+            defaultMode: 420
+            name: poornima-sivanand-graphana-datasources
+          name: volume-azq0r
+        - configMap:
+            defaultMode: 420
+            name: poornima-sivanand-graphana-providers
+          name: volume-33g9p
+    test: false
+    triggers:
+    - type: ConfigChange
+    - imageChangeParams:
+        automatic: true
+        containerNames:
+        - poornima-sivanand-grafana
+        from:
+          kind: ImageStreamTag
+      type: ImageChange
+- apiVersion: image.openshift.io/v1
+  kind: ImageStream
+  metadata:
+    labels:
+      app: poornima-sivanand-grafana
+    name: poornima-sivanand-grafana
+  spec:
+    lookupPolicy:
+      local: false
+- apiVersion: route.openshift.io/v1
+  kind: Route
+  metadata:
+    labels:
+      app: poornima-sivanand-grafana
+    name: poornima-sivanand-grafana
+  spec:
+    host: grafana-s4g19x-poornima-sivanand-openshift201-may2019-dev.pathfinder.gov.bc.ca
+    port:
+      targetPort: 3000-tcp
+    to:
+      kind: Service
+      name: poornima-sivanand-grafana
+      weight: 100
+    wildcardPolicy: None
+
+
