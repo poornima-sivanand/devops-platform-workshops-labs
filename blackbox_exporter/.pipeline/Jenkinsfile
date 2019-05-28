@@ -8,7 +8,7 @@ def PROD_NAMESPACE = "s4g19x-poornima-sivanand-openshift201-may2019-prod"
 
 //Pipeline
 node {
-            stage ('Buld in Tools Namespace'){
+            stage ('Build in Tools Namespace'){
                 dir ('simple_pipeline') {
                     checkout scm
                     timeout (time: 600, unit: 'SECONDS'){
@@ -51,4 +51,50 @@ node {
 
              }
         }
-    }
+        stage('Promote to DEV') {
+                openshift.withCluster() {
+                    openshift.tag("blackboxexporter:latest", "blackboxexporter:dev")
+                }
+            }
+        stage('Create DEV') {
+            openshift.withCluster() {
+                openshift.withProject("${DEV_NAMESPACE}") {
+                                def blackboxdcSelector = openshift.selector("dc", "blackboxexporter")
+                                try {
+                                    blackboxdcSelector.object()
+                                    deploymentconfig = blackboxdcSelector.related( "deploymentconfig" )
+                                } catch (Throwable t) {
+                                    na = openshift.newApp("${TOOLS_NAMESPACE}/blackboxexporter:dev", "--name=blackboxexporter").narrow('svc').expose()
+
+                                    // Print out information about the objects created by newBuild
+                                    echo "newApp created: ${na.count()} objects : ${na.names()}"
+
+                                }
+                }
+            }
+            }  
+
+        stage('Promote to PROD') {
+                openshift.withCluster() {
+                    openshift.tag("blackboxexporter:latest", "blackboxexporter:prod")
+                }
+            }
+        stage('Create PROD') {
+            openshift.withCluster() {
+                openshift.withProject("${PROD_NAMESPACE}") {
+                                def blackboxdcSelector = openshift.selector("dc", "blackboxexporter")
+                                try {
+                                    blackboxdcSelector.object()
+                                    deploymentconfig = blackboxdcSelector.related( "deploymentconfig" )
+                                } catch (Throwable t) {
+                                    na = openshift.newApp("${TOOLS_NAMESPACE}/blackboxexporter:prod", "--name=blackboxexporter").narrow('svc').expose()
+
+                                    // Print out information about the objects created by newBuild
+                                    echo "newApp created: ${na.count()} objects : ${na.names()}"
+
+                                }
+                }
+            }
+            }  
+
+}
