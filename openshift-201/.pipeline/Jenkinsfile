@@ -1,7 +1,5 @@
 #!/usr/bin/env groovy
 
-#!/usr/bin/env groovy
-
 //ENV Vars
 def TOOLS_NAMESPACE = "[namespace]-tools"
 def DEV_NAMESPACE = "[namespace]-dev"
