@@ -202,7 +202,7 @@ parameters:
 - description: The namespace this templated is deployed into.
   displayName: Namespace
   name: NAMESPACE
-  value: openshift
+  value: s4g19x-poornima-sivanand-openshift201-may2019-dev
 - description: The name of the Loki service to connect to.
   displayName: Loki Service Name
   name: LOKI_SERVICE_NAME
