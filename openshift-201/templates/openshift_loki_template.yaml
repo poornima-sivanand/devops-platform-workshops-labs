@@ -52,7 +52,7 @@ objects:
         targetPort: http-metrics
     selector:
       app: loki
-      release: poornima-sivanand-loki
+      release: ${LOKI_SERVICE_NAME}
 
 - apiVersion: apps.openshift.io/v1
   kind: DeploymentConfig
@@ -137,7 +137,7 @@ objects:
         volumes:
           - name: config
             secret:
-              secretName: poornima-sivanand-loki
+              secretName: ${LOKI_SERVICE_NAME}
           - name: storage
             emptyDir: {}
     test: false
