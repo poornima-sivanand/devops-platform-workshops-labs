@@ -345,7 +345,7 @@ parameters:
 - description: The namespace this templated is deployed into.
   displayName: Namespace
   name: NAMESPACE
-  value: openshift
+  value: s4g19x-poornima-sivanand-openshift201-may2019-dev
 - description: The name of the OpenShift Service exposed for the database.
   displayName: Grafana Service Name
   name: GRAFANA_SERVICE_NAME
