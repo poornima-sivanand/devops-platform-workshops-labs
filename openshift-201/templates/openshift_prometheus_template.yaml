@@ -9,7 +9,6 @@ metadata:
   annotations:
     description: |-
       Grafana Template for use in OpenShift 201 lab without persistent storage. 
-
       WARNING: Any configuration stored will be lost upon pod destruction. ConfigMaps should be used for codified configuration. 
     iconClass: icon-other-unknown
     openshift.io/display-name: prometheus-openshift201
@@ -82,7 +81,6 @@ objects:
           target_label: kubernetes_pod_name
     rules: |
       {}
-
 - apiVersion: v1
   kind: PersistentVolumeClaim
   metadata:
