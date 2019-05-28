@@ -110,14 +110,6 @@ objects:
         dnsPolicy: ClusterFirst
         restartPolicy: Always
         schedulerName: default-scheduler
-        securityContext:
-          capabilities:
-            drop:
-            - KILL
-            - MKNOD
-            - SETGID
-            - SETUID
-          runAsUser: 1007460000
         terminationGracePeriodSeconds: 30
         volumes:
         - configMap:
