@@ -91,7 +91,7 @@ objects:
               secretKeyRef:
                 key: app-db-password
                 name: patroni
-        - image: grafana/grafana:6.2.0
+          image: grafana/grafana:6.2.0
           imagePullPolicy: IfNotPresent
           name: ${GRAFANA_SERVICE_NAME}
           ports:
