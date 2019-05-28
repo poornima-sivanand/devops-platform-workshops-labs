@@ -8,11 +8,12 @@ def PROD_NAMESPACE = "s4g19x-poornima-sivanand-openshift201-may2019-prod"
 
 //Pipeline
 node {
+node {
             stage ('Build Stage'){
                 dir ('simple_pipeline') {
                     checkout scm
-                    sh "echo HELLO WORLD! "
-                    sh "ls -lha openshift-201/templates"
+                    sh "oc get projects"
                 }
             }
+    }
     }
