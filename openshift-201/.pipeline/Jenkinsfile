@@ -1,9 +1,8 @@
 #!/usr/bin/env groovy
 
 //ENV Vars
-def TOOLS_NAMESPACE = "s4g19x-poornima-sivanand-openshift201-may2019-tools"
-def DEV_NAMESPACE = "s4g19x-poornima-sivanand-openshift201-may2019-dev"
-def PROD_NAMESPACE = "s4g19x-poornima-sivanand-openshift201-may2019-prod"
+def TOOLS_NAMESPACE = "spi-dev"
+def DEV_NAMESPACE = "spi-dev"
 def LOKI_SERVICE  = "loki"
 def PROMETHEUS_SERVICE = "prometheus"
 def GRAFANA_SERVICE = "grafana"
@@ -49,7 +48,7 @@ node {
 
              }
         }
-            stage ('Deploy to Prod'){
+/*             stage ('Deploy to Prod'){
                 dir ('simple_pipeline') {
                     
                     parallel (
@@ -87,5 +86,5 @@ node {
                     }
 
              }
-    }
+    } */
 }
